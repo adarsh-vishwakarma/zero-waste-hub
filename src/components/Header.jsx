@@ -22,7 +22,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { signOut, useSession } from "next-auth/react";
-import { getUnreadNotifications, getUserBalance, getUserByEmail } from "@/actions/dbActions";
+import { getUnreadNotifications, getUserBalance, getUserByEmail, markNotificationAsRead } from "@/actions/dbActions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 
@@ -42,15 +42,7 @@ const pathname = usePathname();
 const [notifications, setNotifications] = useState([]);
 const isMobile = useMediaQuery("(max-width: 768px)");
 const [balance, setBalance] = useState(0);
-// if (status === "authenticated") {
-//   setUserInfo(session.user)
-// }
-// console.log(userInfo)
 
-//   if (session && !loggedIn) {
-//     setLoggedIn(true);
-//     setLoading(false)
-//   }
   const getUserInfo = () => {
     if (session?.data) {
       setUserInfo(session.data.user);  // Directly set the user info from session
@@ -74,8 +66,8 @@ const [balance, setBalance] = useState(0);
   
   useEffect(() => {
     const fetchNotifications = async () => {
-      if (userInfo?.email) {
-        const user = await getUserByEmail(userInfo.email);
+      if (session?.user?.email) {
+        const user = await getUserByEmail(session.user.email);
         if (user) {
           const unreadNotifications = await getUnreadNotifications(user.id);
           setNotifications(unreadNotifications);
@@ -96,7 +88,7 @@ const [balance, setBalance] = useState(0);
     const fetchUserBalance = async () => {
       if (userInfo?.email) {
         
-        const user = await getUserByEmail(userInfo.email);
+        const user = await getUserByEmail(session.user.email);
 
         if (user) {
           const userBalance = await getUserBalance(user.id);

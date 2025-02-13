@@ -40,6 +40,7 @@ export async function getUserByEmail(email) {
     const user = await prisma.users.findUnique({
       where: { email },
     });
+  
     return user;
   } catch (error) {
     console.error("Error fetching user by email:", error);
@@ -154,8 +155,9 @@ export async function getWasteCollectionTasks(limit = 20) {
       },
       take: limit,
     });
-
+// console.log(tasks)
     // Map over the tasks to format the date as YYYY-MM-DD
+    
     return tasks.map(task => ({
       ...task,
       date: task.createdAt.toISOString().split('T')[0], // Format date as YYYY-MM-DD
@@ -165,6 +167,9 @@ export async function getWasteCollectionTasks(limit = 20) {
     return [];
   }
 }
+
+
+
 
 // Reward Functions
 export async function getOrCreateReward(userId) {
@@ -344,6 +349,23 @@ export async function redeemReward(userId, rewardId) {
   }
 }
 
+export async function markNotificationAsRead(notificationId) {
+  try {
+    // Using Prisma to update the notification's 'isRead' status
+
+    await prisma.notifications.update({
+      where: {
+        id: notificationId, // Finding the notification by its ID
+      },
+      data: {
+        isRead: true, // Setting 'isRead' to true
+      },
+    });
+  } catch (error) {
+    console.error("Error marking notification as read:", error);
+  }
+}
+
 export async function getRecentReports(limit = 10) {
   try {
     const reports = await prisma.reports.findMany({
@@ -416,5 +438,35 @@ export async function getUserBalance(userId) {
   } catch (error) {
     console.error("Error calculating user balance:", error);
     return 0; // Default to 0 balance in case of error
+  }
+}
+
+
+
+export async function updateTaskStatus(reportId, newStatus, collectorId) {
+  // console.log(typeof(reportId))
+  // return
+  try {
+    const updateData = { status: newStatus };
+    if (collectorId !== undefined) {
+      updateData.collectorId = collectorId;
+    }
+   const newCollectorId = parseInt(updateData.collectorId, 10)
+    // console.log(typeof(updateData.collectorId))
+    // return
+    const updatedReport = await prisma.reports.update({
+      where: { id: reportId },
+      data: {
+        status: updateData.status,
+        collectorId: newCollectorId
+      }
+    });
+    // console.log(updatedReport)
+    // return 
+    console.log("Complete")
+    return updatedReport;
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    throw error;
   }
 }
