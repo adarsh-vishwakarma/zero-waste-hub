@@ -17,7 +17,7 @@ console.log(calculatedBalance)
 
   return (
     <>
-      <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between h-full border-l-4 border-green-500 mb-8">
+      <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between h-64 border-l-4 border-green-500 mb-8">
         <h2 className="text-xl font-semibold mb-4 text-gray-800">Reward Balance</h2>
         <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center">

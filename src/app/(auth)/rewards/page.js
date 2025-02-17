@@ -1,5 +1,6 @@
 
 import { getRewardTransactions } from "@/actions/dbActions";
+import AvailableRewards from "@/components/AvailableRewards";
 import RecentTransaction from "@/components/RecentTransaction";
 import TotalCoins from "@/components/TotalCoins";
 import { NEXT_AUTH } from "@/lib/auth";
@@ -45,6 +46,7 @@ const RewardPage = async () => {
       <TotalCoins fetchedTransactions={fetchedTransactions}/>
       <div className="grid md:grid-cols-2 gap-8">
 <RecentTransaction fetchedTransactions={fetchedTransactions}/>
+<AvailableRewards />
       </div>
     </>
   );

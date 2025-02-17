@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 const RecentTransaction = ({fetchedTransactions}) => {
     const [transactions, setTransactions] = useState([]);
-    console.log(fetchedTransactions)
+
   return (
     <div>
     <h2 className="text-2xl font-semibold mb-4 text-gray-800">Recent Transactions</h2>

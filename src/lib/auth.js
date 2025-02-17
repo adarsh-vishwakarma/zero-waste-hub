@@ -31,7 +31,9 @@ export const NEXT_AUTH = {
       },
     }),
   ],
-
+pages: {
+signIn: "/login"
+},
   session: {
     strategy: "jwt",
   },

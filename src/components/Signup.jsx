@@ -17,12 +17,11 @@ export default function Signup() {
     const response = await registerUser(
       { email, password, name }) 
   
-
       const userData = response.user;
-      // Store the user data in localStorage to maintain session
-      localStorage.setItem("user", JSON.stringify(userData));
-      router.push("/");
-    // Reset form fields
+
+     
+      router.push("/login");
+
     setName("");
     setEmail("");
     setPassword("");
